@@ -1,5 +1,7 @@
 package com.scott.learningredis;
 
+import java.util.Set;
+
 import redis.clients.jedis.Jedis;
 
 /**
@@ -8,10 +10,13 @@ import redis.clients.jedis.Jedis;
  */
 public class App {
 	public static void main(String[] args) throws Exception {
-		keyValue();
-		increment();
-		ttlNExpire();
-		set();
+//		keyValue();
+//		increment();
+//		ttlNExpire();
+//		set();
+//		keys();
+		
+		userAccessToken ();
 	}
 
 	private static void keyValue() {
@@ -58,5 +63,31 @@ public class App {
 		jedis.sadd(cacheKey, "Java", "Ruby");
 		// Getting the values... it doesn't allow duplicates
 		System.out.println("Languages: " + jedis.smembers(cacheKey));
+	}
+
+	private static void keys() {
+		Jedis jedis = new Jedis("localhost");
+		Set<String> sets = jedis.keys("*");
+		System.out.println(sets);
+	}
+	
+	private static void userAccessToken () {
+		Jedis jedis = new Jedis("localhost");
+		
+		jedis.hset("Ying", "WEB", "xxxxx1");
+		jedis.hset("Ying", "MOBILE", "xxxxx2");
+		jedis.hset("Sun", "WEB", "xxxxx3");
+		jedis.hset("Sun", "MOBILE", "xxxxx4");
+		System.out.println(jedis.hget("Ying", "WEB"));
+		System.out.println(jedis.hget("Ying", "MOBILE"));
+		System.out.println(jedis.hget("Sun", "WEB"));
+		System.out.println(jedis.hget("Sun", "MOBILE"));
+		
+		jedis.hdel("Sun", "WEB");
+		System.out.println(jedis.hget("Ying", "WEB"));
+		System.out.println(jedis.hget("Ying", "MOBILE"));
+		System.out.println(jedis.hget("Sun", "WEB"));
+		System.out.println(jedis.hget("Sun", "MOBILE"));
+		
 	}
 }
