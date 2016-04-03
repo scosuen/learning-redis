@@ -14,9 +14,9 @@ public class App {
 //		increment();
 //		ttlNExpire();
 //		set();
-//		keys();
+		keys();
 		
-		userAccessToken ();
+//		userAccessToken ();
 	}
 
 	private static void keyValue() {
